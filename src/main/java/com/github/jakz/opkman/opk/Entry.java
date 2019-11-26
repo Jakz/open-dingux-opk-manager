@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-public class OpkEntry implements Comparable<OpkEntry>
+public class Entry implements Comparable<Entry>
 {
   public final UUID uuid;
   
@@ -13,14 +13,14 @@ public class OpkEntry implements Comparable<OpkEntry>
   public final String description;
   public final String comment;
   
-  public final OpkCategory category;
+  public final Category category;
   public final String subcategory;
   
   public final String author;
   
-  public final List<OpkRelease> releases;
+  public final List<Release> releases;
   
-  public OpkEntry(UUID uuid, String title, String description, String comment, OpkCategory category, String subcategory, String author, List<OpkRelease> releases)
+  public Entry(UUID uuid, String title, String description, String comment, Category category, String subcategory, String author, List<Release> releases)
   {
     this.uuid = uuid;
     this.title = title;
@@ -32,12 +32,12 @@ public class OpkEntry implements Comparable<OpkEntry>
     this.releases = releases;
   }
   
-  public static OpkEntry of(UUID uuid, String title, OpkCategory category)
+  public static Entry of(UUID uuid, String title, Category category)
   {
-    return new OpkEntry(uuid, title, "", "", category, "", "", Collections.emptyList());
+    return new Entry(uuid, title, "", "", category, "", "", Collections.emptyList());
   }
   
-  public Stream<OpkRelease> stream()
+  public Stream<Release> stream()
   {
     return releases.stream();
   }
@@ -45,11 +45,11 @@ public class OpkEntry implements Comparable<OpkEntry>
   @Override
   public boolean equals(Object object)
   {
-    return object instanceof OpkEntry && ((OpkEntry)object).uuid.equals(uuid);
+    return object instanceof Entry && ((Entry)object).uuid.equals(uuid);
   }
   
   @Override
-  public int compareTo(OpkEntry other)
+  public int compareTo(Entry other)
   {
     return title.compareTo(other.title);
   }

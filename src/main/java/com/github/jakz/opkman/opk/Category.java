@@ -1,6 +1,6 @@
 package com.github.jakz.opkman.opk;
 
-public enum OpkCategory
+public enum Category
 {
   APPLICATION("Application", "app"),
   GAME("Game", "game"),
@@ -8,7 +8,7 @@ public enum OpkCategory
   
   ;
   
-  private OpkCategory(String name, String identifier)
+  private Category(String name, String identifier)
   {
     this.name = name;
     this.identifier = identifier;

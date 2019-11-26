@@ -13,10 +13,10 @@ import java.util.UUID;
 import org.apache.log4j.Logger;
 
 import com.github.jakz.opkman.Sha1;
-import com.github.jakz.opkman.opk.OpkCategory;
-import com.github.jakz.opkman.opk.OpkEntry;
-import com.github.jakz.opkman.opk.OpkRelease;
-import com.github.jakz.opkman.opk.OpkSystem;
+import com.github.jakz.opkman.opk.Category;
+import com.github.jakz.opkman.opk.Entry;
+import com.github.jakz.opkman.opk.Release;
+import com.github.jakz.opkman.opk.System;
 import com.github.jakz.opkman.opk.Version;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,27 +39,27 @@ public class RepositoryLoader
     
   }
   
-  public OpkRepository load(Path path) throws JsonSyntaxException, JsonIOException, IOException
+  public Repository load(Path path) throws JsonSyntaxException, JsonIOException, IOException
   {
     GsonBuilder builder = new GsonBuilder();
     
     builder.registerTypeAdapter(Sha1.class, new Sha1Deserializer());
-    builder.registerTypeAdapter(OpkCategory.class, new CategoryDeserializer());
-    builder.registerTypeAdapter(OpkSystem.class, new SystemDeserializer());
+    builder.registerTypeAdapter(Category.class, new CategoryDeserializer());
+    builder.registerTypeAdapter(System.class, new SystemDeserializer());
     builder.registerTypeAdapter(Version.class, new VersionDeserializer());
     builder.registerTypeAdapter(LocalDate.class, new DateDeserializer());
     
-    builder.registerTypeAdapter(OpkRelease.class, new ReleaseDeserializer());
-    builder.registerTypeAdapter(OpkEntry.class, new EntryDeserializer());
-    builder.registerTypeAdapter(OpkRepository.class, new RepositoryDeserializer());
+    builder.registerTypeAdapter(Release.class, new ReleaseDeserializer());
+    builder.registerTypeAdapter(Entry.class, new EntryDeserializer());
+    builder.registerTypeAdapter(Repository.class, new RepositoryDeserializer());
     
     Gson gson = builder.create();
     
-    OpkRepository repository = gson.fromJson(Files.newBufferedReader(path), OpkRepository.class);
+    Repository repository = gson.fromJson(Files.newBufferedReader(path), Repository.class);
     
     logger.info(String.format(
         "loaded repository from %s: %d entries, %d total releases", 
-        path.toString(), repository.size(), repository.stream().flatMap(OpkEntry::stream).count())
+        path.toString(), repository.size(), repository.stream().flatMap(Entry::stream).count())
     );
     
     return repository;
@@ -105,37 +105,37 @@ public class RepositoryLoader
     }
   }
   
-  private class CategoryDeserializer implements JsonDeserializer<OpkCategory>
+  private class CategoryDeserializer implements JsonDeserializer<Category>
   {
     @Override
-    public OpkCategory deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
+    public Category deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
     {
       String identifier = json.getAsString();
-      return Arrays.stream(OpkCategory.values())
+      return Arrays.stream(Category.values())
           .filter(category -> category.identifier.equals(identifier))
           .findFirst()
           .orElseThrow(() -> new JsonParseException("Unknown category: "+identifier));
     }
   }
   
-  private class SystemDeserializer implements JsonDeserializer<OpkSystem>
+  private class SystemDeserializer implements JsonDeserializer<System>
   {
     @Override
-    public OpkSystem deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
+    public System deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
     {
       String identifier = json.getAsString();
-      return Arrays.stream(OpkSystem.values())
+      return Arrays.stream(System.values())
           .filter(system -> system.identifier.equals(identifier))
           .findFirst()
           .orElseThrow(() -> new JsonParseException("Unknown category: "+identifier));
     }
   }
   
-  private class ReleaseDeserializer implements JsonDeserializer<OpkRelease>
+  private class ReleaseDeserializer implements JsonDeserializer<Release>
   {
 
     @Override
-    public OpkRelease deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
+    public Release deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
     {
       JsonObject obj = json.getAsJsonObject();
       
@@ -143,17 +143,17 @@ public class RepositoryLoader
       Sha1 sha1 = context.deserialize(obj.get("sha1"), Sha1.class);
       long size = obj.get("size").getAsLong();
       Version version = context.deserialize(obj.get("version"), Version.class);
-      OpkSystem[] systems = context.deserialize(obj.get("systems"), OpkSystem[].class);
+      System[] systems = context.deserialize(obj.get("systems"), System[].class);
       
       return null;
     }
     
   }
   
-  private class EntryDeserializer implements JsonDeserializer<OpkEntry>
+  private class EntryDeserializer implements JsonDeserializer<Entry>
   {
     @Override
-    public OpkEntry deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
+    public Entry deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
     {
       JsonObject obj = json.getAsJsonObject();
       
@@ -161,23 +161,23 @@ public class RepositoryLoader
       String title = context.deserialize(obj.get("title"), String.class);
       String description = optionalParse(obj, "description", String.class, "", context);
       String comment = optionalParse(obj, "comment", String.class, "", context);
-      OpkCategory category = context.deserialize(obj.get("category"), OpkCategory.class);
+      Category category = context.deserialize(obj.get("category"), Category.class);
       String subcategory = optionalParse(obj, "subcategory", String.class, "", context);
       String author = optionalParse(obj, "author", String.class, "", context);
-      List<OpkRelease> releases = context.deserialize(obj.get("releases"), new TypeToken<List<OpkRelease>>(){}.getType());
+      List<Release> releases = context.deserialize(obj.get("releases"), new TypeToken<List<Release>>(){}.getType());
       
-      return new OpkEntry(uuid, title, description, comment, category, subcategory, author, releases);
+      return new Entry(uuid, title, description, comment, category, subcategory, author, releases);
     }
   }
   
-  private class RepositoryDeserializer implements JsonDeserializer<OpkRepository>
+  private class RepositoryDeserializer implements JsonDeserializer<Repository>
   {
 
     @Override
-    public OpkRepository deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
+    public Repository deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException
     {
-      Collection<OpkEntry> entries = context.deserialize(json.getAsJsonObject().get("entries"), new TypeToken<List<OpkEntry>>(){}.getType());
-      return new OpkRepository(entries);
+      Collection<Entry> entries = context.deserialize(json.getAsJsonObject().get("entries"), new TypeToken<List<Entry>>(){}.getType());
+      return new Repository(entries);
     }
     
   }

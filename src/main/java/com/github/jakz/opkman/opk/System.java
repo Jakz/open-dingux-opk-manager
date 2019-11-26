@@ -1,13 +1,13 @@
 package com.github.jakz.opkman.opk;
 
-public enum OpkSystem
+public enum System
 {
   GCW0("GCW0", "gcw0"),
   RG350("RG350", "rg350")
   
   ;
   
-  private OpkSystem(String name, String identifier)
+  private System(String name, String identifier)
   {
     this.name = name;
     this.identifier = identifier;

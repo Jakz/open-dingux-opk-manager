@@ -6,16 +6,16 @@ import java.util.EnumSet;
 
 import com.github.jakz.opkman.Sha1;
 
-public class OpkRelease
+public class Release
 {
   public final Sha1 checksum;
   public final long size;;
-  public final EnumSet<OpkSystem> systems;
+  public final EnumSet<System> systems;
   public final Version version;
   public final LocalDate date;
   public final String comment;
   
-  private OpkRelease(Sha1 checksum, long size, Version version, LocalDate date, String comment, OpkSystem... systems)
+  private Release(Sha1 checksum, long size, Version version, LocalDate date, String comment, System... systems)
   {
     this.checksum = checksum;
     this.size = size;
@@ -28,6 +28,6 @@ public class OpkRelease
   @Override
   public boolean equals(Object obj)
   {
-    return obj instanceof OpkRelease && ((OpkRelease)obj).checksum.equals(checksum) && ((OpkRelease)obj).size == size;
+    return obj instanceof Release && ((Release)obj).checksum.equals(checksum) && ((Release)obj).size == size;
   }
 }

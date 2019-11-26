@@ -6,14 +6,14 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
-import com.github.jakz.opkman.opk.OpkEntry;
-import com.github.jakz.opkman.opk.OpkRelease;
+import com.github.jakz.opkman.opk.Entry;
+import com.github.jakz.opkman.opk.Release;
 
-public class OpkRepository
+public class Repository
 {
-  private final Set<OpkEntry> entries;
+  private final Set<Entry> entries;
   
-  public OpkRepository(Collection<OpkEntry> entries)
+  public Repository(Collection<Entry> entries)
   {
     this.entries = new TreeSet<>(entries);
   }
@@ -23,7 +23,7 @@ public class OpkRepository
     return entries.size();
   }
   
-  public Stream<OpkEntry> stream()
+  public Stream<Entry> stream()
   {
     return entries.stream();
   }

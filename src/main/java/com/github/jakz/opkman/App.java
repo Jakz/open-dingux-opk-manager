@@ -3,8 +3,10 @@ package com.github.jakz.opkman;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.nio.file.Paths;
 import java.util.Vector;
 
+import com.github.jakz.opkman.repository.RepositoryLoader;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
@@ -23,6 +25,9 @@ public class App
     {
       //SftpManager manager = new SftpManager(new Config());
       //manager.test();
+      
+      RepositoryLoader loader = new RepositoryLoader();
+      loader.load(Paths.get("repository.json"));
     }
     catch (Exception e)
     {

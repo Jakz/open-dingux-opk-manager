@@ -24,4 +24,10 @@ public class OpkRelease
     this.comment = comment;
     this.systems = EnumSet.copyOf(Arrays.asList(systems));
   }
+  
+  @Override
+  public boolean equals(Object obj)
+  {
+    return obj instanceof OpkRelease && ((OpkRelease)obj).checksum.equals(checksum) && ((OpkRelease)obj).size == size;
+  }
 }

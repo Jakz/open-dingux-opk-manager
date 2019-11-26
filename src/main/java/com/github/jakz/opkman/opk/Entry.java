@@ -1,5 +1,6 @@
 package com.github.jakz.opkman.opk;
 
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -18,9 +19,11 @@ public class Entry implements Comparable<Entry>
   
   public final String author;
   
+  public final URL icon;
+  
   public final List<Release> releases;
   
-  public Entry(UUID uuid, String title, String description, String comment, Category category, String subcategory, String author, List<Release> releases)
+  public Entry(UUID uuid, String title, String description, String comment, Category category, String subcategory, String author, URL icon, List<Release> releases)
   {
     this.uuid = uuid;
     this.title = title;
@@ -29,12 +32,18 @@ public class Entry implements Comparable<Entry>
     this.category = category;
     this.subcategory = subcategory;
     this.author = author;
+    this.icon = icon;
     this.releases = releases;
   }
   
   public static Entry of(UUID uuid, String title, Category category)
   {
-    return new Entry(uuid, title, "", "", category, "", "", Collections.emptyList());
+    return new Entry(uuid, title, "", "", category, "", "", null, Collections.emptyList());
+  }
+  
+  public boolean hasIcon()
+  {
+    return icon != null;
   }
   
   public Stream<Release> stream()

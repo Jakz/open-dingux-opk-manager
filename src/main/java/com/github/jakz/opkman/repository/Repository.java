@@ -23,6 +23,11 @@ public class Repository
     return entries.size();
   }
   
+  public Set<Entry> entries()
+  {
+    return entries;
+  }
+  
   public Stream<Entry> stream()
   {
     return entries.stream();

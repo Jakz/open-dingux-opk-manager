@@ -6,10 +6,16 @@ import java.io.PipedOutputStream;
 import java.nio.file.Paths;
 import java.util.Vector;
 
+import com.github.jakz.opkman.repository.Repository;
 import com.github.jakz.opkman.repository.RepositoryLoader;
+import com.github.jakz.opkman.ui.EntryTablePanel;
+import com.github.jakz.opkman.ui.MainPanel;
+import com.github.jakz.opkman.ui.Mediator;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
+import com.pixbits.lib.ui.UIUtils;
+import com.pixbits.lib.ui.WrapperFrame;
 import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -17,6 +23,25 @@ import com.jcraft.jsch.Session;
 
 public class App 
 {
+  public static MainPanel gui;
+  
+  public static void buildUI(Repository repository)
+  {
+    UIUtils.setNimbusLNF();
+    
+    Mediator mediator = new Mediator(repository);
+    
+    WrapperFrame<MainPanel> frame = UIUtils.buildFrame(new MainPanel(mediator), "OpkMan v0.1");
+    frame.setVisible(true);
+    frame.exitOnClose();
+    frame.centerOnScreen();
+    
+    gui = frame.panel();
+    
+    frame.panel().entryTablePanel.refresh();
+  }
+  
+  
   
   @SuppressWarnings("unchecked")
   public static void main(String[] args)
@@ -27,7 +52,9 @@ public class App
       //manager.test();
       
       RepositoryLoader loader = new RepositoryLoader();
-      loader.load(Paths.get("repository.json"));
+      Repository repository = loader.load(Paths.get("repository.json"));
+      
+      buildUI(repository);
     }
     catch (Exception e)
     {

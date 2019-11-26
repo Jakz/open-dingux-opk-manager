@@ -12,6 +12,7 @@
       "description": "GameBoy Advance Emulator",
       "category": "emu",
       "subcategory": "GameBoy Advance",
+      "icon": "https://github.com/Nebuleon/ReGBA/raw/master/source/opendingux/data/regba-silver.png",
       "author": "",
         
       "releases": [

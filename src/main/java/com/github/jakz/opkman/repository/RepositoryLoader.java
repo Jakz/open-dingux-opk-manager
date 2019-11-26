@@ -2,6 +2,7 @@ package com.github.jakz.opkman.repository;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -67,8 +68,8 @@ public class RepositoryLoader
   
   private <T> T optionalParse(JsonObject object, String key, Class<T> type, T def, JsonDeserializationContext context)
   {
-    return object.has("key") ?
-      context.deserialize(object.get("key"), type) :
+    return object.has(key) ?
+      context.deserialize(object.get(key), type) :
       def;
   }
   
@@ -164,9 +165,10 @@ public class RepositoryLoader
       Category category = context.deserialize(obj.get("category"), Category.class);
       String subcategory = optionalParse(obj, "subcategory", String.class, "", context);
       String author = optionalParse(obj, "author", String.class, "", context);
+      URL icon = optionalParse(obj, "icon", URL.class, null, context);
       List<Release> releases = context.deserialize(obj.get("releases"), new TypeToken<List<Release>>(){}.getType());
       
-      return new Entry(uuid, title, description, comment, category, subcategory, author, releases);
+      return new Entry(uuid, title, description, comment, category, subcategory, author, icon, releases);
     }
   }
   

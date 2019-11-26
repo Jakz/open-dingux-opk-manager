@@ -10,6 +10,7 @@
       "uuid": "c04a2b0f-c1e6-4c0f-b1fe-07dfec445063",
       "title": "ReGBA",
       "description": "GameBoy Advance Emulator",
+      "comment": "",
       "category": "emu",
       "subcategory": "GameBoy Advance",
       "icon": "https://github.com/Nebuleon/ReGBA/raw/master/source/opendingux/data/regba-silver.png",
@@ -21,6 +22,7 @@
           "date": "2019-11-12",
           "url": "https://rs97.bitgala.xyz/RG-350/localpack/default_emulators/regba-1.45.5.opk",
           "systems": [ "rg350" ],
+          "comment": "",
           "sha1": "9c877e25c83938e18dffb91af6db85cad8e20cc8",
           "size": "274432"
         }

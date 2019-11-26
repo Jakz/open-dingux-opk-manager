@@ -15,7 +15,7 @@ public class Release
   public final LocalDate date;
   public final String comment;
   
-  private Release(Sha1 checksum, long size, Version version, LocalDate date, String comment, System... systems)
+  public Release(Sha1 checksum, long size, Version version, LocalDate date, String comment, System... systems)
   {
     this.checksum = checksum;
     this.size = size;

@@ -140,13 +140,14 @@ public class RepositoryLoader
     {
       JsonObject obj = json.getAsJsonObject();
       
-      UUID uuid = context.deserialize(obj.get("entry"), UUID.class);
       Sha1 sha1 = context.deserialize(obj.get("sha1"), Sha1.class);
       long size = obj.get("size").getAsLong();
       Version version = context.deserialize(obj.get("version"), Version.class);
       System[] systems = context.deserialize(obj.get("systems"), System[].class);
+      String comment = optionalParse(obj, "comment", String.class, "", context);
+      LocalDate date = context.deserialize(obj.get("date"), LocalDate.class);
       
-      return null;
+      return new Release(sha1, size, version, date, comment, systems);
     }
     
   }

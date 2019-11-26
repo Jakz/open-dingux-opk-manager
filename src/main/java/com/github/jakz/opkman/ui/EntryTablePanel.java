@@ -1,6 +1,7 @@
 package com.github.jakz.opkman.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
@@ -33,12 +34,17 @@ public class EntryTablePanel extends JPanel
     model = new Model(table);
     
     setLayout(new BorderLayout());
-    add(new JScrollPane(table), BorderLayout.CENTER);
+    JScrollPane pane = new JScrollPane(table);
+    pane.setPreferredSize(new Dimension(600, 300));
+    add(pane, BorderLayout.CENTER);
 
-    model.addColumn(new ColumnSpec<>("", ImageIcon.class, entry -> mediator.gui().iconCache.get(entry)));
+    model.addColumn(new ColumnSpec<Entry, ImageIcon>("", ImageIcon.class, entry -> mediator.gui().iconCache.get(entry)).setWidth(40));
     model.addColumn(new ColumnSpec<>("Name", String.class, entry -> entry.title));
     model.addColumn(new ColumnSpec<>("Category", String.class, entry -> entry.category.name));
     model.addColumn(new ColumnSpec<>("Subcategory", String.class, entry -> entry.subcategory));
+    model.addColumn(new ColumnSpec<Entry, Integer>("#", Integer.class, entry -> entry.releases.size()).setWidth(40));
+    
+    
     model.setRowHeight(36);
     
     

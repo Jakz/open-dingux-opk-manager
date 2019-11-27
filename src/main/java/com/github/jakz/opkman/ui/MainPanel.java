@@ -2,6 +2,7 @@ package com.github.jakz.opkman.ui;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MainPanel extends JPanel
@@ -22,6 +23,10 @@ public class MainPanel extends JPanel
     
     this.setLayout(new BorderLayout());
     add(entryTablePanel, BorderLayout.CENTER);
-    add(entryInfoPanel, BorderLayout.EAST);
+    
+    JPanel subPanel = new JPanel(new BorderLayout());
+    subPanel.add(entryInfoPanel, BorderLayout.NORTH);
+    subPanel.add(new JLabel(), BorderLayout.CENTER);
+    add(subPanel, BorderLayout.EAST);
   }
 }

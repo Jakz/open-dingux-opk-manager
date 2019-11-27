@@ -27,6 +27,29 @@
           "size": "274432"
         }
       ]
+    },
+    {
+      "uuid": "d83f132d-fdbe-4fdb-848b-6c771c7f8d7d",
+      "title": "Eduke32",
+      "description": "Duke Nukem 3D engine port",
+      "comment": "",
+      "notes": "requires duke3d.grp from original game to be copied in local/home/.eduke32", 
+      "category": "game",
+      "subcategory": "FPS",
+      "icon": "https://github.com/zear/eduke32/raw/master/eduke32.png",
+      "author": "",
+        
+      "releases": [
+        {
+          "version": "1.0",
+          "date": "2019-10-17",
+          "url": "https://rs97.bitgala.xyz/RG-350/localpack/default_games/eduke32.opk",
+          "systems": [ "rg350" ],
+          "comment": "default version shipped with the console",
+          "sha1": "170769858078eb8ba1b493b1a28dca9a346cb8de",
+          "size": "1126400"
+        }
+      ]
     }
   ]
 }

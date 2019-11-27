@@ -13,6 +13,7 @@ public class Entry implements Comparable<Entry>
   public final String title;
   public final String description;
   public final String comment;
+  public final String notes;
   
   public final Category category;
   public final String subcategory;
@@ -23,12 +24,13 @@ public class Entry implements Comparable<Entry>
   
   public final List<Release> releases;
   
-  public Entry(UUID uuid, String title, String description, String comment, Category category, String subcategory, String author, URL icon, List<Release> releases)
+  public Entry(UUID uuid, String title, String description, String comment, String notes, Category category, String subcategory, String author, URL icon, List<Release> releases)
   {
     this.uuid = uuid;
     this.title = title;
     this.description = description;
     this.comment = comment;
+    this.notes = notes;
     this.category = category;
     this.subcategory = subcategory;
     this.author = author;
@@ -38,7 +40,7 @@ public class Entry implements Comparable<Entry>
   
   public static Entry of(UUID uuid, String title, Category category)
   {
-    return new Entry(uuid, title, "", "", category, "", "", null, Collections.emptyList());
+    return new Entry(uuid, title, "", "", "", category, "", "", null, Collections.emptyList());
   }
   
   public boolean hasIcon()

@@ -163,13 +163,14 @@ public class RepositoryLoader
       String title = context.deserialize(obj.get("title"), String.class);
       String description = optionalParse(obj, "description", String.class, "", context);
       String comment = optionalParse(obj, "comment", String.class, "", context);
+      String notes = optionalParse(obj, "notes", String.class, "", context);
       Category category = context.deserialize(obj.get("category"), Category.class);
       String subcategory = optionalParse(obj, "subcategory", String.class, "", context);
       String author = optionalParse(obj, "author", String.class, "", context);
       URL icon = optionalParse(obj, "icon", URL.class, null, context);
       List<Release> releases = context.deserialize(obj.get("releases"), new TypeToken<List<Release>>(){}.getType());
       
-      return new Entry(uuid, title, description, comment, category, subcategory, author, icon, releases);
+      return new Entry(uuid, title, description, comment, notes, category, subcategory, author, icon, releases);
     }
   }
   

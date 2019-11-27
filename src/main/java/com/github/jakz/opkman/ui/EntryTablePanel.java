@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 import com.github.jakz.opkman.opk.Entry;
 import com.pixbits.lib.ui.table.ColumnSpec;
@@ -38,7 +39,12 @@ public class EntryTablePanel extends JPanel
     pane.setPreferredSize(new Dimension(600, 300));
     add(pane, BorderLayout.CENTER);
 
-    model.addColumn(new ColumnSpec<Entry, ImageIcon>("", ImageIcon.class, entry -> mediator.gui().iconCache.get(entry)).setWidth(40));
+    model.addColumn(new ColumnSpec<Entry, ImageIcon>("", ImageIcon.class, 
+      entry -> mediator.gui().iconCache.asyncGet(entry, 
+        () -> SwingUtilities.invokeLater(() -> model.fireTableDataChanged())
+      )
+    ).setWidth(40));
+    
     model.addColumn(new ColumnSpec<>("Name", String.class, entry -> entry.title));
     model.addColumn(new ColumnSpec<>("Category", String.class, entry -> entry.category.name));
     model.addColumn(new ColumnSpec<>("Subcategory", String.class, entry -> entry.subcategory));
